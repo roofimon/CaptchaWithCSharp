@@ -4,44 +4,20 @@ using NUnit.Framework;
 namespace CaptchaTest
 {
     [TestFixture]
-    public class CaptchaTest
+    public class FirstPatternLeftOperandShouldBeString
     {
         [Test]
-        public void LeftOperand_ShouldBeONE_WhenInputIs1()
+        public void LeftOperandIs1()
         {
             Captcha captcha = new Captcha(1, 1, 1, 1);
             Assert.AreEqual("ONE", captcha.GetLeftOperand());
         }
-
         [Test]
-        public void LeftOperand_ShouldBe1_WhenInputIs1()
-        {
-            Captcha captcha = new Captcha(2, 1, 1, 1);
-            Assert.AreEqual("1", captcha.GetLeftOperand());
-        }
-
-        [Test]
-        public void LeftOperand_ShouldBe2_WhenInputIs2()
-        {
-            Captcha captcha = new Captcha(2, 2, 1, 1);
-            Assert.AreEqual("2", captcha.GetLeftOperand());
-        }
-
-        [Test]
-        public void LeftOperand_ShouldThrowInvalidRangeException_WhenInputIs0()
-        {
-            Captcha captcha = new Captcha(2, 0, 1, 1);
-            Assert.Throws(typeof(InvalidRangeException),
-                delegate { captcha.GetLeftOperand(); });
-        }
-
-        [Test]
-        public void LeftOperand_ShouldBeTWO_WhenInputIs2()
+        public void LeftOperandIs2()
         {
             Captcha captcha = new Captcha(1, 2, 1, 1);
             Assert.AreEqual("TWO", captcha.GetLeftOperand());
         }
-
         [Test]
         public void LeftOperand_ShouldBeTHREE_WhenInputIs3()
         {
@@ -60,6 +36,72 @@ namespace CaptchaTest
             Captcha captcha = new Captcha(1, 9, 1, 1);
             Assert.AreEqual("NINE", captcha.GetLeftOperand());
         }
+    }
+
+    [TestFixture]
+    public class FirstPatternRightOperandShouldBeNumber
+    {
+        [Test]
+        public void RightOperand_ShouldBe1_WhenInputIs1()
+        {
+            Captcha captcha = new Captcha(1, 1, 1, 1);
+            Assert.AreEqual("1", captcha.GetRightOperand());
+        }
+
+        [Test]
+        public void RightOperand_ShouldBe2_WhenInputIs2()
+        {
+            Captcha captcha = new Captcha(1, 1, 1, 2);
+            Assert.AreEqual("2", captcha.GetRightOperand());
+        }
+    }
+
+    [TestFixture]
+    public class SecondPatternLeftOperandShouldBeNumber
+    {
+        [Test]
+        public void LeftOperandIs1()
+        {
+            Captcha captcha = new Captcha(2, 1, 1, 1);
+            Assert.AreEqual("1", captcha.GetLeftOperand());
+        }
+        [Test]
+        public void LeftOperand_ShouldBe2_WhenInputIs2()
+        {
+            Captcha captcha = new Captcha(2, 2, 1, 1);
+            Assert.AreEqual("2", captcha.GetLeftOperand());
+        }
+    }
+
+    [TestFixture]
+    public class SecondPatterRightOperandShouldBeString
+    {
+        [Test]
+        public void RightOperand_ShouldBeONE_WhenInputIs1()
+        {
+            Captcha captcha = new Captcha(2, 1, 1, 1);
+            Assert.AreEqual("ONE", captcha.GetRightOperand());
+        }
+        [Test]
+        public void RightOperand_ShouldBeNINE_WhenInputIs9()
+        {
+            Captcha captcha = new Captcha(2, 1, 1, 9);
+            Assert.AreEqual("NINE", captcha.GetRightOperand());
+        }
+    }
+
+    [TestFixture]
+    public class ShouldThrowExceptionWhenLeftOperandValueIsLessThanOneAndMoreThanNine
+    {
+        [Test]
+        public void LeftOperand_ShouldThrowInvalidRangeException_WhenInputIs0()
+        {
+            Captcha captcha = new Captcha(2, 0, 1, 1);
+            Assert.Throws(typeof(InvalidRangeException),
+                delegate { captcha.GetLeftOperand(); });
+        }
+
+
         [Test]
         public void LeftOperand_ShouldThrowException_WhenInputInvalidMaxLeftOperand()
         {
@@ -75,7 +117,31 @@ namespace CaptchaTest
             Assert.Throws(typeof(InvalidRangeException),
                 delegate { captcha.GetLeftOperand(); });
         }
+    }
 
+    [TestFixture]
+    public class ShouldThrowExceptionWhenRightOperandValueIsLessThanOneAndMoreThanNine
+    {
+        [Test]
+        public void RightOperand_ShouldThrowException_WhenInputInvalidMinRightOperand()
+        {
+            Captcha captcha = new Captcha(1, 1, 1, 0);
+            Assert.Throws(typeof(InvalidRangeException),
+                delegate { captcha.GetRightOperand(); });
+        }
+
+        [Test]
+        public void RightOperand_ShouldThrowException_WhenInputInvalidMaxRightOperand()
+        {
+            Captcha captcha = new Captcha(1, 1, 1, 10);
+            Assert.Throws(typeof(InvalidRangeException),
+                delegate { captcha.GetRightOperand(); });
+        }
+    }
+
+    [TestFixture]
+    public class OperatorShouldBePlusMultiplyAndMinus
+    {
         [Test]
         public void Operator_ShouldBePlus_WhenInputIs1()
         {
@@ -96,8 +162,11 @@ namespace CaptchaTest
             Captcha captcha = new Captcha(1, 1, 2, 1);
             Assert.AreEqual("*", captcha.GetOperator());
         }
+    }
 
-
+    [TestFixture]
+    public class ShouldThrowExceptionWhenOperatorValueIsMoreThanThree
+    {
         [Test]
         public void Operator_ShouldThrowException_WhenInputInvalidOperator()
         {
@@ -105,51 +174,11 @@ namespace CaptchaTest
             Assert.Throws(typeof(InvalidFormatOperatorException),
                 delegate { captcha.GetOperator(); });
         }
+    }
 
-        [Test]
-        public void RightOperand_ShouldBe1_WhenInputIs1()
-        {
-            Captcha captcha = new Captcha(1, 1, 1, 1);
-            Assert.AreEqual("1", captcha.GetRightOperand());
-        }
-
-        [Test]
-        public void RightOperand_ShouldBeONE_WhenInputIs1()
-        {
-            Captcha captcha = new Captcha(2, 1, 1, 1);
-            Assert.AreEqual("ONE", captcha.GetRightOperand());
-        }
-
-        [Test]
-        public void RightOperand_ShouldBeNINE_WhenInputIs9()
-        {
-            Captcha captcha = new Captcha(2, 1, 1, 9);
-            Assert.AreEqual("NINE", captcha.GetRightOperand());
-        }
-
-        [Test]
-        public void RightOperand_ShouldBe2_WhenInputIs2()
-        {
-            Captcha captcha = new Captcha(1, 1, 1, 2);
-            Assert.AreEqual("2", captcha.GetRightOperand());
-        }
-
-        [Test]
-        public void RightOperand_ShouldThrowException_WhenInputInvalidMinRightOperand()
-        {
-            Captcha captcha = new Captcha(1, 1, 1, 0);
-            Assert.Throws(typeof(InvalidRangeException),
-                delegate { captcha.GetRightOperand(); });
-        }
-
-        [Test]
-        public void RightOperand_ShouldThrowException_WhenInputInvalidMaxRightOperand()
-        {
-            Captcha captcha = new Captcha(1, 1, 1, 10);
-            Assert.Throws(typeof(InvalidRangeException),
-                delegate { captcha.GetRightOperand(); });
-        }
-
+    [TestFixture]
+    public class CaptchaTest
+    {
         [Test]
         public void Pattern_ShouldBeONEPlus1_WhenPatternIs1()
         {
